@@ -35,7 +35,7 @@ public class HomeController {
     }
 
     //글 상세 조회 페이지로 이동
-    @RequestMapping("/{id}")
+    @GetMapping("/detailpost/{id}")
     public String getPostDetail(@PathVariable Long id, Model model){
         model.addAttribute("post", postRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 게시글을 불러올 수 없습니다.")

@@ -10,8 +10,27 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 
-    <title>초록 게시판</title>
+    <title>초록 나무 숲</title>
     <link rel="stylesheet" type="text/css" href="/css/board.css">
+    <script>
+        function deleteOne(id){
+            $.ajax({
+                type: 'DELETE',
+                url: `/board/${id}`,
+                success: function (response){
+                    alert('삭제되었습니다!');
+                    window.location.href = '/';
+                }
+            })
+        }
+
+        function DetailPost(id){
+            $.ajax({
+                type: 'GET',
+                url: `/detailpost/${id}`
+            });
+        }
+    </script>
 </head>
 <body>
 <div class="background-header"></div>
@@ -27,15 +46,15 @@
         </button>
     </div>
     <div class="header">
-        <h2>초록 게시판</h2>
-        <h3 th:if="${username} != 'Guest'" th:text="${username}"></h3>
+        <h2>🌲 초록 나무 숲 게시판 🌲</h2>
+        <h3 th:if="${username} != 'Guest'" th:text="|환영합니다. ${username} 님,|"></h3>
         <p>
             아무 게시글이나 올려보세요!
         </p>
     </div>
 
     <div id="cards-box" class="area-read" th:each="post : ${posts}">
-        <div class="card" onclick="" th:id="${post.getId()}">
+        <div class="card" th:onclick="|DetailPost('${post.getId()}')|">
             <!-- date/username 영역 -->
             <div class="metadata">
                 <div class="username" th:text="${post.getAuthor()}"></div>
@@ -44,8 +63,8 @@
             <h2 class="title" th:text="${post.getTitle()}"></h2>
             <div class="contents" th:text="${post.getContent()}"></div>
             <div class="footer">
-                <img id="1-delete" class="icon-delete" src="/images/delete.png" alt=""
-                     th:onclick="deleteOne(${post.getId()})">
+                <img th:if="${username} == ${post.getAuthor()}" id="1-delete" class="icon-delete" src="/images/delete.png" alt="삭제"
+                     th:onclick="|deleteOne('${post.getId()}')|">
             </div>
         </div>
     </div>

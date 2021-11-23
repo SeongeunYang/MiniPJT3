@@ -3,8 +3,10 @@ package com.diddl.minipjt3.controller;
 import com.diddl.minipjt3.dto.PostRequestDto;
 import com.diddl.minipjt3.model.Post;
 import com.diddl.minipjt3.repository.PostRepository;
+import com.diddl.minipjt3.security.UserDetailsImpl;
 import com.diddl.minipjt3.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +20,9 @@ public class BoardController {
 
     //게시글 작성 & 저장 API
     @PostMapping("/board/newpost")
-    public Post writePost(@RequestBody PostRequestDto requestDto){
-        Post post = new Post(requestDto);
+    public Post writePost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        String username = userDetails.getUsername();
+        Post post = new Post(requestDto, username);
         return postRepository.save(post);
     }
 

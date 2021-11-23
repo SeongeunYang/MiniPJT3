@@ -36,6 +36,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 // 회원 관리 처리 API 전부를 login 없이 허용
                 .antMatchers("/user/**").permitAll()
+                // 상세 글 조회 페이지 로그인 없이 허용
+                .antMatchers("/detailpost/**").permitAll()
+                // 글 목록 페이지 로그인 없이 허용
                 .antMatchers("/").permitAll() // 글 리스트 페이지 로그인 안해도 접속 가능하게
                 // 그 외 어떤 요청이든 '인증'
                 .anyRequest().authenticated()
