@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
+    <title>초록 게시판</title>
+    <link rel="stylesheet" type="text/css" href="/css/board.css">
+</head>
+<body>
+<div class="background-header"></div>
+<div class="background-body"></div>
+<div class="wrap">
+    <div class="nav">
+        <button th:if="${username} == 'Guest'" class="UserBtn" onclick="window.location.href='/user/login'">로그인</button>
+        <button th:if="${username} == 'Guest'" class="UserBtn" onclick="window.location.href='/user/signup'">회원가입
+        </button>
+        <button th:if="${username} != 'Guest'" class="UserBtn" onclick="window.location.href='/user/logout'">로그아웃
+        </button>
+        <button th:if="${username} != 'Guest'" class="UserBtn" onclick="window.location.href='/board/newpost'">글쓰기
+        </button>
+    </div>
+    <div class="header">
+        <h2>초록 게시판</h2>
+        <h3 th:if="${username} != 'Guest'" th:text="${username}"></h3>
+        <p>
+            아무 게시글이나 올려보세요!
+        </p>
+    </div>
+
+    <div id="cards-box" class="area-read" th:each="post : ${posts}">
+        <div class="card" onclick="" th:id="${post.getId()}">
+            <!-- date/username 영역 -->
+            <div class="metadata">
+                <div class="username" th:text="${post.getAuthor()}"></div>
+                <div class="date" th:text="${post.getCreateAt()}"></div>
+            </div>
+            <h2 class="title" th:text="${post.getTitle()}"></h2>
+            <div class="contents" th:text="${post.getContent()}"></div>
+            <div class="footer">
+                <img id="1-delete" class="icon-delete" src="/images/delete.png" alt=""
+                     th:onclick="deleteOne(${post.getId()})">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-
+        //.headers().frameOptions().disable();
         http.authorizeRequests()
                 // image 폴더를 login 없이 허용
                 .antMatchers("/images/**").permitAll()
@@ -36,6 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 // 회원 관리 처리 API 전부를 login 없이 허용
                 .antMatchers("/user/**").permitAll()
+                .antMatchers("/").permitAll() // 글 리스트 페이지 로그인 안해도 접속 가능하게
                 // 그 외 어떤 요청이든 '인증'
                 .anyRequest().authenticated()
                 .and()
@@ -55,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 // 로그아웃 요청 처리 URL
                 .logoutUrl("/user/logout")
+                .logoutSuccessUrl("/")
                 .permitAll()
                 .and()
                 .exceptionHandling();
