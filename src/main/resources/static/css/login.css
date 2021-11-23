@@ -145,3 +145,12 @@
     text-align: center;
     color: #ffffff;
 }
+
+.hidden{
+    display: none;
+}
+
+.warining{
+    font-size: 12px;
+    color: blue;
+}
