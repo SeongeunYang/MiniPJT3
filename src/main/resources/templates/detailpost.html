@@ -1,10 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
+    <title>초록 나무 숲</title>
+    <link rel="stylesheet" type="text/css" href="/css/board.css">
+    <script>
+        function deleteOne(id) { //게시글 삭제 기능
+            $.ajax({
+                type: 'DELETE',
+                url: `/board/${id}`,
+                success: function (response) {
+                    alert('삭제되었습니다!');
+                    window.location.href = '/';
+                }
+            })
+        }
+
+        function SendUserment(){
+            let userment = $('#userment').val();
+            if(userment !== "") {
+                $.ajax({
+                    type: 'POST',
+                    url: `/board/${id}`,
+                    success: function (response) {
+                        window.location.reload();
+                    }
+                });
+            } else{
+                alert("댓글을 작성해주세요!");
+            }
+        }
+    </script>
 </head>
 <body>
-sdasdasff
+<div class="background-header"></div>
+<div class="background-body"></div>
+<div class="wrap">
+    <div class="nav">
+        <button class="UserBtn" onclick="window.location.href='/'">메인으로</button>
+        <button th:if="${username} == 'Guest'" class="UserBtn" onclick="window.location.href='/user/login'">로그인</button>
+        <button th:if="${username} == 'Guest'" class="UserBtn" onclick="window.location.href='/user/signup'">회원가입
+        </button>
+        <button th:if="${username} != 'Guest'" class="UserBtn" onclick="window.location.href='/user/logout'">로그아웃
+        </button>
+    </div>
+    <div class="header">
+        <h2>🌲 초록 나무 숲 게시판 🌲</h2>
+        <p>
+            댓글을 달아보세요!
+        </p>
+    </div>
+
+    <div id="cards-box" class="area-read">
+        <!--        반복문을 돌며 글 목록 띄우기 -->
+        <div class="card" th:onclick="|DetailPost('${post.getId()}')|">
+            <div class="metadata">
+                <div class="username" th:text="${post.getAuthor()}"></div>
+                <div class="date" th:text="${post.getCreateAt()}"></div>
+            </div>
+            <h2 class="title" th:text="${post.getTitle()}"></h2>
+            <div class="contents" th:text="${post.getContent()}"></div>
+            <div class="footer">
+                <!--                글쓴이와 현재 로그인한 유저가 같을때만 삭제버튼이 보이도록-->
+                <img th:if="${username} == ${post.getAuthor()}" id="1-delete" class="icon-delete"
+                     src="/images/delete.png" alt="삭제"
+                     th:onclick="|deleteOne('${post.getId()}')|">
+            </div>
+        </div>
+    </div>
+
+    <div class="area-write">
+        <textarea class="field-userment" placeholder="댓글을 입력해주세요" name="userment" id="userment" cols="30"
+                  rows="10"></textarea>
+        <img src="/images/send.png" alt="댓글쓰기" onclick="SendUserment()">
+    </div>
+</div>
 </body>
 </html>

@@ -13,22 +13,19 @@
     <title>초록 나무 숲</title>
     <link rel="stylesheet" type="text/css" href="/css/board.css">
     <script>
-        function deleteOne(id){
+        function deleteOne(id) { //게시글 삭제 기능
             $.ajax({
                 type: 'DELETE',
                 url: `/board/${id}`,
-                success: function (response){
+                success: function (response) {
                     alert('삭제되었습니다!');
                     window.location.href = '/';
                 }
             })
         }
 
-        function DetailPost(id){
-            $.ajax({
-                type: 'GET',
-                url: `/detailpost/${id}`
-            });
+        function DetailPost(id) { // 상세 페이지로 이동
+            window.location.href = `/detailpost/${id}`
         }
     </script>
 </head>
@@ -54,8 +51,8 @@
     </div>
 
     <div id="cards-box" class="area-read" th:each="post : ${posts}">
+<!--        반복문을 돌며 글 목록 띄우기 -->
         <div class="card" th:onclick="|DetailPost('${post.getId()}')|">
-            <!-- date/username 영역 -->
             <div class="metadata">
                 <div class="username" th:text="${post.getAuthor()}"></div>
                 <div class="date" th:text="${post.getCreateAt()}"></div>
@@ -63,7 +60,9 @@
             <h2 class="title" th:text="${post.getTitle()}"></h2>
             <div class="contents" th:text="${post.getContent()}"></div>
             <div class="footer">
-                <img th:if="${username} == ${post.getAuthor()}" id="1-delete" class="icon-delete" src="/images/delete.png" alt="삭제"
+<!--                글쓴이와 현재 로그인한 유저가 같을때만 삭제버튼이 보이도록-->
+                <img th:if="${username} == ${post.getAuthor()}" id="1-delete" class="icon-delete"
+                     src="/images/delete.png" alt="삭제"
                      th:onclick="|deleteOne('${post.getId()}')|">
             </div>
         </div>

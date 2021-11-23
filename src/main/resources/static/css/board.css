@@ -1,6 +1,7 @@
 body {
     margin: 0px;
 }
+
 button,
 button::after {
     -webkit-transition: all 0.3s;
@@ -67,6 +68,7 @@ button:hover {
     height: 18.7px;
     bottom: 15px;
     right: 17px;
+    margin-bottom: 5px;
 }
 
 .background-header {
@@ -146,7 +148,7 @@ textarea.field {
     resize: none;
 }
 
-textarea.field::placeholder {
+textarea.field.field-userment::placeholder{
     width: 216px;
     height: 16px;
     font-family: 'Noto Sans KR', sans-serif;
@@ -158,6 +160,17 @@ textarea.field::placeholder {
     letter-spacing: -0.96px;
     text-align: left;
     color: #868e96;
+}
+
+textarea.field-userment{
+    width: 565px !important;
+    height: 70px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: none;
+    padding: 18px;
+    resize: none;
+    margin-bottom: 12px;
 }
 
 .card {
