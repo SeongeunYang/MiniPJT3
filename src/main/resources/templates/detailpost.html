@@ -24,17 +24,31 @@
             })
         }
 
-        function SendUserment(){
+        function deleteCommentOne(id) { //게시글 삭제 기능
+            $.ajax({
+                type: 'DELETE',
+                url: `/comment/${id}`,
+                success: function (response) {
+                    window.location.reload();
+                }
+            })
+        }
+
+        function SendUserment(id) { // 댓글 저장 기능
             let userment = $('#userment').val();
-            if(userment !== "") {
+            let comment = {'postid': id, 'writer': "", 'content': userment}
+
+            if (userment !== "") {
                 $.ajax({
                     type: 'POST',
-                    url: `/board/${id}`,
+                    url: "/board/comment",
+                    contentType: "application/json",
+                    data: JSON.stringify(comment),
                     success: function (response) {
                         window.location.reload();
                     }
                 });
-            } else{
+            } else {
                 alert("댓글을 작성해주세요!");
             }
         }
@@ -61,7 +75,7 @@
 
     <div id="cards-box" class="area-read">
         <!--        반복문을 돌며 글 목록 띄우기 -->
-        <div class="card" th:onclick="|DetailPost('${post.getId()}')|">
+        <div class="card">
             <div class="metadata">
                 <div class="username" th:text="${post.getAuthor()}"></div>
                 <div class="date" th:text="${post.getCreateAt()}"></div>
@@ -72,16 +86,35 @@
                 <!--                글쓴이와 현재 로그인한 유저가 같을때만 삭제버튼이 보이도록-->
                 <img th:if="${username} == ${post.getAuthor()}" id="1-delete" class="icon-delete"
                      src="/images/delete.png" alt="삭제"
-                     th:onclick="|deleteOne('${post.getId()}')|">
+                     th:onclick="|comment('${post.getId()}')|">
             </div>
         </div>
     </div>
 
+    <!--    댓글 작성란-->
     <div class="area-write">
         <textarea class="field-userment" placeholder="댓글을 입력해주세요" name="userment" id="userment" cols="30"
                   rows="10"></textarea>
-        <img src="/images/send.png" alt="댓글쓰기" onclick="SendUserment()">
+        <img src="/images/send.png" alt="댓글쓰기" th:onclick="|SendUserment('${post.getId()}')|">
     </div>
+
+    <!--    댓글 목록란-->
+    <div th:each="comment : ${comments}">
+        <div class="card">
+            <div class="metadata">
+                <div class="username" th:text="${comment.getWriter()}"></div>
+                <div class="date" th:text="${comment.getCreateAt()}"></div>
+            </div>
+            <div class="contents" th:text="${comment.getContent()}"></div>
+            <div class="footer">
+                <!--                글쓴이와 현재 로그인한 유저가 같을때만 삭제버튼이 보이도록-->
+                <img th:if="${username} == ${comment.getWriter()}" id="1-delete" class="icon-delete"
+                     src="/images/delete.png" alt="삭제"
+                     th:onclick="|deleteCommentOne('${comment.getId()}')|">
+            </div>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>

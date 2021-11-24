@@ -1,5 +1,6 @@
 package com.diddl.minipjt3.controller;
 
+import com.diddl.minipjt3.repository.CommentRepository;
 import com.diddl.minipjt3.repository.PostRepository;
 import com.diddl.minipjt3.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class HomeController {
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
 
     @GetMapping("/")
     public String AfterLoginHome(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -43,6 +45,8 @@ public class HomeController {
         model.addAttribute("post", postRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 게시글을 불러올 수 없습니다.")
         ));
+        model.addAttribute("comments",commentRepository.findAllByPostidOrderByCreateAtDesc(id));
+
         return "detailpost";
     }
 }

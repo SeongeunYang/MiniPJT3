@@ -1,7 +1,10 @@
 package com.diddl.minipjt3.controller;
 
+import com.diddl.minipjt3.dto.CommentRequestDto;
 import com.diddl.minipjt3.dto.PostRequestDto;
+import com.diddl.minipjt3.model.Comment;
 import com.diddl.minipjt3.model.Post;
+import com.diddl.minipjt3.repository.CommentRepository;
 import com.diddl.minipjt3.repository.PostRepository;
 import com.diddl.minipjt3.security.UserDetailsImpl;
 import com.diddl.minipjt3.service.BoardService;
@@ -16,6 +19,7 @@ import java.util.List;
 @RestController
 public class BoardController {
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
     private final BoardService boardService;
 
     //게시글 작성 & 저장 API
@@ -30,6 +34,7 @@ public class BoardController {
     @DeleteMapping("/board/{id}")
     public Long deletePost(@PathVariable Long id){
         postRepository.deleteById(id);
+        commentRepository.deleteAllByPostid(id);
         return id;
     }
 
