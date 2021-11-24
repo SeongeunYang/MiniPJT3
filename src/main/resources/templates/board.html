@@ -14,14 +14,16 @@
     <link rel="stylesheet" type="text/css" href="/css/board.css">
     <script>
         function deleteOne(id) { //게시글 삭제 기능
-            $.ajax({
-                type: 'DELETE',
-                url: `/board/${id}`,
-                success: function (response) {
-                    alert('삭제되었습니다!');
-                    window.location.href = '/';
-                }
-            })
+            if (confirm("정말로 삭제하시겠습니까?")) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: `/board/${id}`,
+                    success: function (response) {
+                        alert('삭제되었습니다!');
+                        window.location.href = '/';
+                    }
+                })
+            } else {}
         }
 
         function DetailPost(id) { // 상세 페이지로 이동
@@ -61,7 +63,7 @@
             <div class="contents" th:text="${post.getContent()}"></div>
             <div class="footer">
 <!--                글쓴이와 현재 로그인한 유저가 같을때만 삭제버튼이 보이도록-->
-                <img th:if="${username} == ${post.getAuthor()}" id="1-delete" class="icon-delete"
+                <img th:if="${username} == ${post.getAuthor()}" class="icon-delete"
                      src="/images/delete.png" alt="삭제"
                      th:onclick="|deleteOne('${post.getId()}')|">
             </div>

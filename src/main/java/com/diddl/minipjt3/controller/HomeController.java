@@ -30,6 +30,9 @@ public class HomeController {
     //글쓰기 페이지로 이동시키기
     @GetMapping("/board/newpost")
     public String moveToNewPost(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null){
+            return "needlogin";
+        }
         model.addAttribute("username", userDetails.getUsername());
         return "newpost";
     }
