@@ -17,11 +17,11 @@ public class CommentController {
     private final CommentService commentService;
 
     // 댓글 저장 API
-    @PostMapping("/board/comment")
+    @PostMapping("/detailpost/comment")
     @ResponseBody
-    public String addComment(@RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        if(userDetails == null){
-            return "not user";
+    public String addComment(@RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            return "회원이 아닙니다.";
         }
         String username = userDetails.getUsername();
         Comment comment = new Comment(requestDto, username);
@@ -30,20 +30,24 @@ public class CommentController {
     }
 
     // 댓글 수정 API
-    @PutMapping("/board/comment/{id}")
+    @PutMapping("/detailpost/comment/{id}")
     @ResponseBody
-    public String updateComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        if(userDetails == null){
-            return "not user";
+    public String updateComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            return "회원이 아닙니다.";
         }
         commentService.updateComment(id, requestDto);
         return "save";
     }
 
+    // 댓글 삭제 API
     @DeleteMapping("/comment/{id}")
     @ResponseBody
-    public Long deleteCommet(@PathVariable Long id){
-        commentRepository.deleteById(id);
+    public Long deleteCommet(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            return (long) -1;
+        }
+        commentRepository.deleteById(id); // 해당 댓글 삭제하기
         return id;
     }
 }

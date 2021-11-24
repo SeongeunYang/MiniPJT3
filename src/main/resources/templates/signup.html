@@ -27,14 +27,16 @@
                     contentType: "application/json",
                     data: JSON.stringify(userdata),
                     success: function (response) {
-                        if (response === "중복된 ID 입니다.") {
+                        if(response ==="저장되었습니다."){
+                            window.location.href = '/user/login';
+                        } else if (response === "중복된 ID 입니다.") {
                             $('#id-fail').text(response);
                             $('#id-fail').removeClass('hidden');
                         } else if(response === "중복된 Email 입니다.") {
                             $('#email-fail').text(response);
                             $('#email-fail').removeClass('hidden');
                         } else {
-                            window.location.href = '/user/login';
+                            alert(response);
                         }
                     }
                 });

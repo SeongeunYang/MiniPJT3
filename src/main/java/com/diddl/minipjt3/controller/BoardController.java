@@ -1,8 +1,6 @@
 package com.diddl.minipjt3.controller;
 
-import com.diddl.minipjt3.dto.CommentRequestDto;
 import com.diddl.minipjt3.dto.PostRequestDto;
-import com.diddl.minipjt3.model.Comment;
 import com.diddl.minipjt3.model.Post;
 import com.diddl.minipjt3.repository.CommentRepository;
 import com.diddl.minipjt3.repository.PostRepository;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor // final 생성자
 @RestController
 public class BoardController {
     private final PostRepository postRepository;
@@ -33,8 +31,8 @@ public class BoardController {
     //게시글 삭제 API
     @DeleteMapping("/board/{id}")
     public Long deletePost(@PathVariable Long id){
-        postRepository.deleteById(id);
-        commentRepository.deleteAllByPostid(id);
+        postRepository.deleteById(id); //게시글 삭제
+        commentRepository.deleteAllByPostid(id); //해당 게시글에 해당하는 댓글들 모두 삭제
         return id;
     }
 
