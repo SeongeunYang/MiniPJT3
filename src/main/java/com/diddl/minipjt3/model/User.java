@@ -1,5 +1,6 @@
 package com.diddl.minipjt3.model;
 
+import com.diddl.minipjt3.validator.UserInfoValidator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +29,9 @@ public class User {
     private Long kakaoId;
 
     public User(String username, String password, String email) {
+        // 회원가입 정보 유효성 검사
+        UserInfoValidator.validateUserInfoInput(username, password, email);
+
         this.username = username;
         this.password = password;
         this.email = email;
