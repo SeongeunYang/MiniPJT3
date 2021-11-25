@@ -1,18 +1,35 @@
 function SendForm() {
-    if (CheckForm()) {
-        let form = document.getElementById("signup-form");
-        form.setAttribute("charset", "UTF-8");
-        form.setAttribute("method", "Post");  //Post 방식
-        form.setAttribute("action", "/user/signup"); //요청 보낼 주소
-        form.submit();
-    }
-}
-
-function CheckForm() {
     let nick = $('#nickname').val();
     let pwd1 = $('#password').val();
     let pwd2 = $('#chk-password').val();
+    let email = $('#email').val();
 
+    if (CheckForm(nick, pwd1, pwd2)) {
+        let userdata = {'username': nick, 'password': pwd1, 'email': email}
+
+        $.ajax({
+            type: "POST",
+            url: "/user/signup",
+            contentType: "application/json",
+            data: JSON.stringify(userdata),
+            success: function (response) {
+                if(response ==="저장되었습니다."){
+                    window.location.href = '/user/login';
+                } else if (response === "중복된 ID 입니다.") {
+                    $('#id-fail').text(response);
+                    $('#id-fail').removeClass('hidden');
+                } else if(response === "중복된 Email 입니다.") {
+                    $('#email-fail').text(response);
+                    $('#email-fail').removeClass('hidden');
+                } else {
+                    alert(response);
+                }
+            }
+        });
+    }
+}
+
+function CheckForm(nick, pwd1, pwd2) {
     if (CheckNickname(nick) && CheckPassword(nick, pwd1) && CheckSamePwd(pwd1, pwd2)) {
         return true;
     }
