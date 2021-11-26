@@ -35,6 +35,23 @@ button:hover {
     color: #2ecc71;
 }
 
+.searchInput {
+    margin-left: 20px;
+    margin-bottom: 60px;
+    width: 450px;
+    height: 40px;
+    font-size: 20px;
+    color: white;
+    background-color: rgba( 255, 255, 255, 0);
+    border-width: 0px 0px 3px 0px;
+    border-bottom-color: white;
+
+}
+
+.searchInput::placeholder {
+    color: white;
+}
+
 /* BUTTON 1 */
 .UserBtn::after {
     height: 0;

@@ -71,7 +71,7 @@ function updateComment(id){ //댓글 수정 기능
     if (userment !== "") {
         $.ajax({
             type: 'PUT',
-            url: `/detailpost/comment/${id}`,
+            url: `/comment/${id}`,
             contentType: "application/json",
             data: JSON.stringify(comment),
             success: function (response) {

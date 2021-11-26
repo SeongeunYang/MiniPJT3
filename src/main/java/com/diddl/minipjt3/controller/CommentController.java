@@ -30,12 +30,9 @@ public class CommentController {
     }
 
     // 댓글 수정 API
-    @PutMapping("/detailpost/comment/{id}")
+    @PutMapping("/comment/{id}")
     @ResponseBody
-    public String updateComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if (userDetails == null) {
-            return "회원이 아닙니다.";
-        }
+    public String updateComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto) {
         commentService.updateComment(id, requestDto);
         return "save";
     }
@@ -43,10 +40,7 @@ public class CommentController {
     // 댓글 삭제 API
     @DeleteMapping("/comment/{id}")
     @ResponseBody
-    public Long deleteCommet(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if (userDetails == null) {
-            return (long) -1;
-        }
+    public Long deleteCommet(@PathVariable Long id) {
         commentRepository.deleteById(id); // 해당 댓글 삭제하기
         return id;
     }

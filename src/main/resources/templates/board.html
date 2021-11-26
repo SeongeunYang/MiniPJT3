@@ -28,11 +28,15 @@
         </button>
     </div>
     <div class="header">
-        <h2>🌲 초록 나무 숲 게시판 🌲</h2>
+        <h2>🌲 <b>초록 나무 숲 게시판</b> 🌲</h2>
         <h3 th:if="${username} != 'Guest'" th:text="|환영합니다. ${username} 님,|"></h3>
         <p>
             아무 게시글이나 올려보세요!
         </p>
+        <form action="/board/search" method="GET">
+                <input class="searchInput" name="keyword" type="text" placeholder="검색어를 입력해주세요">
+                <button class="UserBtn">검색하기</button>
+        </form>
     </div>
 
     <div id="cards-box" class="area-read" th:each="post : ${posts}">

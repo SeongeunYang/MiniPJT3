@@ -40,6 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/**").permitAll()
                 // 상세 글 조회 페이지 로그인 없이 허용
                 .antMatchers("/detailpost/**").permitAll()
+                // 메인 페이지에서 포스트 검색 기능 로그인 없이 허용
+                .antMatchers("/board/search").permitAll()
                 // 글 목록 페이지 로그인 없이 허용
                 .antMatchers("/").permitAll() // 글 리스트 페이지 로그인 안해도 접속 가능하게
                 // 그 외 어떤 요청이든 '인증'
